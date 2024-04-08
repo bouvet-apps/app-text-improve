@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget>
+  <display-name>TextImprove</display-name>
+  <description i18n="application.description">Use ChatGPT to quality control your text</description>
+  <interfaces>
+    <interface>contentstudio.contextpanel</interface>
+  </interfaces>
+  <allow>
+    <principal>role:system.admin</principal>
+    <principal>role:cms.admin</principal>
+    <principal>role:cms.expert</principal>
+  </allow>
+</widget>

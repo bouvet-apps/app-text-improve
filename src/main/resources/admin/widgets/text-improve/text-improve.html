@@ -1,0 +1,56 @@
+<widget>
+    <link
+        rel="stylesheet"
+        href="../../assets/css/app.css"
+        data-th-href="${portal.assetUrl({'_path=css/app.css'})}"
+        type="text/css"
+        media="all"
+    >
+    <div id="infoView" class="info hidden">
+        <h1 class="info__title">Text improve</h1>
+        <p>- automatisert mikrotest av tekstinnhold -</p>
+        <!-- TODO: Add to phrases to make sure this text can be shown in both english and norwegian, based on locale -->
+        <p>En tekst har alltid et budskap man ønsker å få frem. Men står budskapet i tråd med en lesers forventning til teksten?
+            En mikrotest av teksten kan forbedre og brukerorientere teksten. Brukerne har ofte spørsmål som en selv ikke har tenkt på.</p>
+
+        <p>Laura Arlov (Skatteetaten) har utviklet en metode for å kjøre en kjapp mikrotest av tekstlig innhold.
+            Metoden går ut på at man lar et antall testbrukere få leste tittel og ingress for en tekst. Deretter skriver testbrukerne ned spørsmål de forventer å få besvart i resten av teksten.
+            <br>
+            Testbrukerne leser så resten av teksten og noterer om de har fått svar på spørsmålene de skrev ned.</p>
+
+        <p>Deretter ser man på følgende:</p>
+        <ul class="info__list">
+            <li>Er spørsmålene godt nok besvart?</li>
+            <li>Er det informasjon som er unødvendig?</li>
+        </ul>
+        <p>Resultatene fra en slik mikrotest kan brukes for å forbedre innholdet i teksten, slik at den står mer i stil med lesernes forventninger.</p>
+        <p>Denne widgeten baserer seg på metoden som er skissert over, men automatiserer prosessen ved å bruke AI (ChatGPT) i stede for faktiske testpersoner.
+            På denne måten kan redaktører raskt og enkelt kvalitetssikre sine tekster, direkte i content studio!</p>
+
+        <button id="widgetShow">Close</button>
+    </div>
+    <div id="widgetView" class="text-improve" data-th-data-contenturl="${contentUrl}">
+        <div class="text-improve__info">
+            <p data-th-text="${localized.info}">Microtest your text content</p>
+            <button id="infoShow"></button>
+        </div>
+        <form id="text-improve__expectationForm" data-th-if="${serviceUrl}" method="get" data-th-data-action="${serviceUrl}" data-th-data-locale="${locale}">
+            <p data-th-text="${localized.expectationInfo}">Check which expectations a reader has based on the title and preface:</p>
+            <input id="expectationContentId" type="hidden" data-th-if="${key}" data-th-value="${key}"/>
+            <div class="text-improve__start">
+                <button class="btn-start" id="expectation" value="expectation" data-th-text="${localized.expectation}">Check reader expectations</button>
+            </div>
+        </form>
+        <form id="text-improve__verifyForm" data-th-if="${serviceUrl}" method="get" data-th-data-action="${serviceUrl}" data-th-data-locale="${locale}">
+            <p data-th-text="${localized.verifyInfo}">Check if the text corresponds with the reader's expectations:</p>
+            <input id="verifyContentId" type="hidden" data-th-if="${key}" data-th-value="${key}"/>
+            <div class="text-improve__start">
+                <button class="btn-start" id="verify" value="verify" data-th-text="${localized.verify}">Verify reader expectations</button>
+            </div>
+        </form>
+        <div id="text-improve__result"></div>
+        <img id="imgSpin" class="hidden" data-th-src="${openAiLogo}" alt="openAI logo">
+    </div>
+    <img class="bottomImage" data-th-src="${openAiPoweredBy}">
+    <script data-th-src="${widgetScriptUrl}" async></script>
+</widget>

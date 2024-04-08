@@ -1,0 +1,20 @@
+<widget class="key">
+    <link
+            rel="stylesheet"
+            href="../../assets/css/app.css"
+            data-th-href="${portal.assetUrl({'_path=css/app.css'})}"
+            type="text/css"
+            media="all"
+    >
+    <h1 class="key__title">No API key found.</h1>
+    <p>This widget needs an openai API key in order to communicate with ChatGPT.<br>Follow the steps below to create an API key and add it to the widget:</p>
+    <ul class="key__list">
+        <li>Go to the <a href='https://openai.com/'>openai webpage</a></li>
+        <li>Click log in to create a free account</li>
+        <li>Select API</li>
+        <li>Hover over the openai icon to the left to open the usermenu</li>
+        <li>Select API keys and create a new key</li>
+        <li>Copy the key and add it to a file called no.bouvet.app.textimprove.cfg like so:<br>apiKey = YOUR KEY HERE</li>
+        <li>Store the file on the Enonic server <br>(if the server is hosed by Enonic, then they have to do this part)</li>
+    </ul>
+</widget>

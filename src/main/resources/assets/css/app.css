@@ -1,0 +1,128 @@
+.text-improve,
+.info {
+    padding: 3% 4%;
+    font-family: Helvetica Neue, Arial, sans-serif;
+    font-size: 13px;
+    border-top: 1px solid lightgray;
+}
+
+.text-improve__info {
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5%;
+}
+
+#text-improve__result {
+    margin-top: 10%;
+}
+
+form {
+    margin-top: 10%;
+}
+
+.btn-start:disabled {
+    background: lightgray;
+    border: rgb(128, 128, 128);
+    color: rgb(128, 128, 128);
+}
+
+.btn-start {
+    background: white;
+    color: black;
+    border: 1.5px solid black;
+    height: 50px;
+    width: 100%;
+    border-radius: 7px;
+    font-size: 15px;
+    margin-top: 4%;
+    cursor: pointer;
+}
+
+.btn-start:hover:not(:disabled),
+#widgetShow:hover:not(:disabled) {
+    color: white;
+    background: black;
+}
+
+.key {
+    font-size: 13px;
+    font-family: Helvetica Neue, Arial, sans-serif;
+}
+
+.key p {
+    margin: 5%;
+}
+
+.key__title {
+    font-size: 16px;
+    text-align: center;
+    padding-top: 5%;
+    border-top: 1px solid lightgray;
+}
+
+.key__list,
+.info__list {
+    margin-top: 4%;
+    padding: 0 30px;
+}
+
+.key__list li,
+.info__list li {
+    list-style: auto;
+    margin-bottom: 4%;
+}
+
+.hidden {
+    display: none;
+}
+
+#imgSpin {
+    height: 40px;
+    width: 100%;
+    margin: 40px auto;
+    animation: rotation 2s infinite linear;
+}
+
+.bottomImage {
+    position: absolute;
+    bottom: 0;
+    margin: 4%;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+#infoShow {
+    background-image: url("../images/info-circle.png");
+    background-size: cover;
+    height: 20px;
+    width: 20px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+
+#widgetShow {
+    cursor: pointer;
+    background-color: white;
+    border: 1.5px solid black;
+    border-radius: 7px;
+    margin-top: 4%;
+}
+
+.info p {
+    margin-top: 4%;
+}
+
+.info__title {
+    font-size: 16px;
+    text-align: center;
+    padding-top: 5%;
+}

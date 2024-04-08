@@ -43,9 +43,9 @@ The answer will be displayed in the widget.
 
 | Version | XP version |
 |---------| ------------- |
-| 1.0.0   | >=7.9.2 |
+| 1.0.1   | >=7.9.2 |
 
 
 ## Changelog
-### Version 1.0.0
-* First launch
+### Version 1.0.1
+* Initial release

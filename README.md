@@ -2,6 +2,8 @@
 
 This Enonic XP application adds a widget to your [Enonic XP](https://github.com/enonic/xp) site. This widget lets you use ChatGPT to run a simple usertest on your text content.
 
+__NB! The app requires paid OpenAI subscription__
+
 ## Installation
 ### Build yourself
 Build this app with gradle. In the terminal, from the root of the project, enter `./gradlew build`.

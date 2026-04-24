@@ -7,27 +7,26 @@
         media="all"
     >
     <div id="infoView" class="info hidden">
-        <h1 class="info__title">Text improve</h1>
-        <p>- automatisert mikrotest av tekstinnhold -</p>
-        <!-- TODO: Add to phrases to make sure this text can be shown in both english and norwegian, based on locale -->
-        <p>En tekst har alltid et budskap man ønsker å få frem. Men står budskapet i tråd med en lesers forventning til teksten?
-            En mikrotest av teksten kan forbedre og brukerorientere teksten. Brukerne har ofte spørsmål som en selv ikke har tenkt på.</p>
+        <h1 class="info__title" data-th-text="${localized.infoTitle}">Text improve</h1>
+        <p data-th-text="${localized.infoSubtitle}">- automated microtest of text content -</p>
+        <p data-th-text="${localized.infoDescription1}">A text always has a message you want to convey. But does the message align with a reader's expectation of the text?
+            A microtest of the text can improve and make the text more user-oriented. Users often have questions that you haven't thought of yourself.</p>
 
-        <p>Laura Arlov (Skatteetaten) har utviklet en metode for å kjøre en kjapp mikrotest av tekstlig innhold.
-            Metoden går ut på at man lar et antall testbrukere få leste tittel og ingress for en tekst. Deretter skriver testbrukerne ned spørsmål de forventer å få besvart i resten av teksten.
+        <p data-th-text="${localized.infoDescription2}">Laura Arlov (Skatteetaten) has developed a method for running a quick microtest of textual content.
+            The method involves letting a number of test users read the title and preface of a text. The test users then write down questions they expect to be answered in the rest of the text.
             <br>
-            Testbrukerne leser så resten av teksten og noterer om de har fått svar på spørsmålene de skrev ned.</p>
+            The test users then read the rest of the text and note whether their questions were answered.</p>
 
-        <p>Deretter ser man på følgende:</p>
+        <p data-th-text="${localized.infoDescription3}">Then you look at the following:</p>
         <ul class="info__list">
-            <li>Er spørsmålene godt nok besvart?</li>
-            <li>Er det informasjon som er unødvendig?</li>
+            <li data-th-text="${localized.infoListItem1}">Are the questions well enough answered?</li>
+            <li data-th-text="${localized.infoListItem2}">Is there unnecessary information?</li>
         </ul>
-        <p>Resultatene fra en slik mikrotest kan brukes for å forbedre innholdet i teksten, slik at den står mer i stil med lesernes forventninger.</p>
-        <p>Denne widgeten baserer seg på metoden som er skissert over, men automatiserer prosessen ved å bruke AI (ChatGPT) i stede for faktiske testpersoner.
-            På denne måten kan redaktører raskt og enkelt kvalitetssikre sine tekster, direkte i content studio!</p>
+        <p data-th-text="${localized.infoDescription4}">The results from such a microtest can be used to improve the content of the text, so that it aligns more with the readers' expectations.</p>
+        <p data-th-text="${localized.infoDescription5}">This widget is based on the method outlined above, but automates the process by using AI (ChatGPT) instead of actual test persons.
+            This way, editors can quickly and easily quality-check their texts, directly in Content Studio!</p>
 
-        <button id="widgetShow">Close</button>
+        <button id="widgetShow" data-th-text="${localized.infoClose}">Close</button>
     </div>
     <div id="widgetView" class="text-improve" data-th-data-contenturl="${contentUrl}">
         <div class="text-improve__info">

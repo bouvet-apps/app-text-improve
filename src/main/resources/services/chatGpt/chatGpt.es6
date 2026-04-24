@@ -13,7 +13,7 @@ const sendQuery = (query) => {
       role: "user",
       content: query
     }],
-    model: "gpt-3.5-turbo",
+    model: "gpt-3.5-turbo", // TODO: We should test and consider upgrading to a newer model. We could also consider allowing the user to choose the model in the widget settings.
     temperature: 0.7
   };
 

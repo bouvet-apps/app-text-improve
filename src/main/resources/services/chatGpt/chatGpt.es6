@@ -2,7 +2,8 @@ const libs = {
   content: require("/lib/xp/content"),
   httpClient: require("/lib/http-client"),
   portal: require("/lib/xp/portal"),
-  context: require("/lib/xp/context")
+  context: require("/lib/xp/context"),
+  common: require("/lib/xp/common")
 };
 
 const apiKey = app.config?.apiKey;
@@ -42,6 +43,7 @@ const sendQuery = (query) => {
 exports.post = (req) => {
   const params = JSON.parse(req.body);
   const content = libs.content.get({ key: params.contentId });
+  const sanitisedContent = params.articleText ? libs.common.sanitize(params.articleText).replaceAll("-", " ") : "";
 
   let title = "";
   let preface = "";
@@ -60,13 +62,10 @@ exports.post = (req) => {
       query = `I'm writing an article for a webpage. The article title is "${title}". The preface is "${preface}". What would you as a reader expect to read about in this article`;
     }
   } else if (params.queryType === "verify") {
-    // TODO: params.articleText is fetched from an external URL and injected directly into the AI prompt
-    // without any sanitisation. A malicious page could manipulate the prompt (prompt injection),
-    // alter AI responses, or cause excessive API usage. We should sanitise and truncate the value.
     if (content.language === "no") {
-      query = `Jeg skriver en artikkel for et nettsted. Tittelen på artikkelen er "${title}". Ingress for artikkelen er "${preface}". Her er hele artikkelteksten: ${params.articleText}. Har jeg besvart leserens forventninger til hva man kan lese om i denne artikkelen, basert på tittel og ingress?`;
+      query = `Jeg skriver en artikkel for et nettsted. Tittelen på artikkelen er "${title}". Ingress for artikkelen er "${preface}". Her er hele artikkelteksten: ${sanitisedContent}. Har jeg besvart leserens forventninger til hva man kan lese om i denne artikkelen, basert på tittel og ingress?`;
     } else {
-      query = `I'm writing an article for a webpage. The article title is "${title}". The preface is "${preface}". Here's the complete article: ${params.articleText}. Have I answered the reader's expectations for what the article is about, based on the title and the preface?`;
+      query = `I'm writing an article for a webpage. The article title is "${title}". The preface is "${preface}". Here's the complete article: ${sanitisedContent}. Have I answered the reader's expectations for what the article is about, based on the title and the preface?`;
     }
   }
 

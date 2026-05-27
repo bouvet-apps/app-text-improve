@@ -53,7 +53,17 @@ exports.get = (req) => {
       expectation: libs.i18n.localize({ key: "widgets.text-improve.expectation", locale }),
       verify: libs.i18n.localize({ key: "widgets.text-improve.verify", locale }),
       expectationInfo: libs.i18n.localize({ key: "widgets.text-improve.expectationInfo", locale }),
-      verifyInfo: libs.i18n.localize({ key: "widgets.text-improve.verifyInfo", locale })
+      verifyInfo: libs.i18n.localize({ key: "widgets.text-improve.verifyInfo", locale }),
+      infoTitle: libs.i18n.localize({ key: "widgets.text-improve.infoTitle", locale }),
+      infoSubtitle: libs.i18n.localize({ key: "widgets.text-improve.infoSubtitle", locale }),
+      infoDescription1: libs.i18n.localize({ key: "widgets.text-improve.infoDescription1", locale }),
+      infoDescription2: libs.i18n.localize({ key: "widgets.text-improve.infoDescription2", locale }),
+      infoDescription3: libs.i18n.localize({ key: "widgets.text-improve.infoDescription3", locale }),
+      infoListItem1: libs.i18n.localize({ key: "widgets.text-improve.infoListItem1", locale }),
+      infoListItem2: libs.i18n.localize({ key: "widgets.text-improve.infoListItem2", locale }),
+      infoDescription4: libs.i18n.localize({ key: "widgets.text-improve.infoDescription4", locale }),
+      infoDescription5: libs.i18n.localize({ key: "widgets.text-improve.infoDescription5", locale }),
+      infoClose: libs.i18n.localize({ key: "widgets.text-improve.infoClose", locale })
     }
   };
 

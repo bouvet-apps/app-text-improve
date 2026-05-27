@@ -45,9 +45,23 @@ The answer will be displayed in the widget.
 
 | Version | XP version |
 |---------| ------------- |
+| 1.0.3   | >=7.14.4 |
+| 1.0.2   | >=7.9.2 |
 | 1.0.1   | >=7.9.2 |
 
 
 ## Changelog
+### Version 1.0.3
+* Upgraded Enonic XP dependency from 7.9.2 to 7.14.4
+* Upgraded Gradle wrapper from 8.3 to 8.11.1 and updated Gradle plugins
+* Minor dependency updates
+* Removed unused `org.ajoberstar.grgit` Gradle plugin
+* Info panel text in the widget is now fully localised (English and Norwegian) via i18n keys
+* Fixed typo in Norwegian translation
+
+### Version 1.0.2
+* Updated readme to specify that the app requires paid OpenAI subscription
+* Bumped webpack, braces and micromatch to fix dependabot alerts
+
 ### Version 1.0.1
 * Initial release

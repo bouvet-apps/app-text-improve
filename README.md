@@ -61,6 +61,8 @@ The answer will be displayed in the widget.
 * Fixed typo in Norwegian translation
 * Updated AI model from `gpt-3.5-turbo` to `gpt-6-luna`
 * Added ability to change model
+* Updated the UI
+* Removed the ability to run both prompts at once
 
 ### Version 1.0.2
 * Updated readme to specify that the app requires paid OpenAI subscription

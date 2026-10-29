@@ -26,7 +26,8 @@ Follow the steps below to create and add the API key to the widget:
 - Hover over the openai icon to the left to open the usermenu
 - Select API keys and create a new key
 - Create a config file called `no.bouvet.app.textimprove.cfg`
-- Copy the key and add it to the file like so: `apiKey = YOUR KEY HERE`
+- Copy the key and add it to the file like so: `apiKey = <YOUR KEY>`
+- The AI model that is currently in use is `gpt-6-luna`. If you want to use another model from OpenAI, add `model = <MODEL NAME>` to the config
 - Store the config file on the Enonic server
 
 If the server is hosted by Enonic, then they have to add the config file to the server.
@@ -45,19 +46,23 @@ The answer will be displayed in the widget.
 
 | Version | XP version |
 |---------| ------------- |
-| 1.0.3   | >=7.14.4 |
+| 1.1.0   | >=7.14.4 |
 | 1.0.2   | >=7.9.2 |
 | 1.0.1   | >=7.9.2 |
 
 
 ## Changelog
-### Version 1.0.3
+### Version 1.1.0
 * Upgraded Enonic XP dependency from 7.9.2 to 7.14.4
 * Upgraded Gradle wrapper from 8.3 to 8.11.1 and updated Gradle plugins
 * Minor dependency updates
 * Removed unused `org.ajoberstar.grgit` Gradle plugin
 * Info panel text in the widget is now fully localised (English and Norwegian) via i18n keys
 * Fixed typo in Norwegian translation
+* Updated AI model from `gpt-3.5-turbo` to `gpt-6-luna`
+* Added ability to change model
+* Updated the UI
+* Removed the ability to run both prompts at once
 
 ### Version 1.0.2
 * Updated readme to specify that the app requires paid OpenAI subscription

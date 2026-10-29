@@ -11,6 +11,7 @@ const alternativeModel = app.config?.model;
 
 const sendQuery = (query) => {
   const data = {
+    instructions: "Answer in plain text in the same language as the question. Do not use Markdown or any other formatting syntax. Separate paragraphs with a blank line, and put each list item on its own line starting with \"• \".",
     input: query,
     model: alternativeModel ?? "gpt-6-luna",
     store: false
@@ -53,6 +54,12 @@ const getOutputText = (parsedResponse) => {
   return text;
 };
 
+// The widget inserts the answer as HTML, so the model's text must not be able to add markup of its own.
+const escapeHtml = (text) => text
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+
 exports.post = (req) => {
   const params = JSON.parse(req.body);
   const content = libs.content.get({ key: params.contentId });
@@ -94,6 +101,6 @@ exports.post = (req) => {
   const parsedResponse = JSON.parse(response.body);
   return {
     contentType: "text/html",
-    body: getOutputText(parsedResponse)
+    body: escapeHtml(getOutputText(parsedResponse).trim())
   };
 };

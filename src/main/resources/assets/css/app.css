@@ -1,128 +1,281 @@
-.text-improve,
-.info {
-    padding: 3% 4%;
-    font-family: Helvetica Neue, Arial, sans-serif;
+/*
+ * Content Studio moves this stylesheet into its own <head>, so every rule is scoped to
+ * .textimprove to keep it from styling Content Studio itself.
+ */
+.textimprove {
+    --ti-color-text: #1f2328;
+    --ti-color-muted: #59636e;
+    --ti-color-border: #d8dee4;
+    --ti-color-surface: #f6f8fa;
+    --ti-color-primary: #1f2328;
+    --ti-color-on-primary: #ffffff;
+    --ti-color-focus: #0070de;
+    --ti-color-disabled: #8c959f;
+    --ti-color-disabled-surface: #eff2f5;
+    --ti-color-error: #b42318;
+    --ti-color-error-surface: #fef3f2;
+    --ti-color-error-border: #fecdca;
+    --ti-radius: 6px;
+    --ti-content-max-width: 560px;
+    --ti-powered-by-max-width: 160px;
+
+    display: block;
+    padding: 16px;
+    border-top: 1px solid var(--ti-color-border);
+    font-family: inherit;
     font-size: 13px;
-    border-top: 1px solid lightgray;
+    line-height: 1.5;
+    color: var(--ti-color-text);
 }
 
-.text-improve__info {
-    font-size: 16px;
+.textimprove *,
+.textimprove *::before,
+.textimprove *::after {
+    box-sizing: border-box;
+}
+
+.textimprove .hidden {
+    display: none !important;
+}
+
+.textimprove__panel,
+.textimprove__footer {
+    max-width: var(--ti-content-max-width);
+}
+
+/* Header */
+
+.textimprove__header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    margin-top: 5%;
+    gap: 8px;
 }
 
-#text-improve__result {
-    margin-top: 10%;
+.textimprove__lead {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-form {
-    margin-top: 10%;
-}
-
-.btn-start:disabled {
-    background: lightgray;
-    border: rgb(128, 128, 128);
-    color: rgb(128, 128, 128);
-}
-
-.btn-start {
-    background: white;
-    color: black;
-    border: 1.5px solid black;
-    height: 50px;
-    width: 100%;
-    border-radius: 7px;
-    font-size: 15px;
-    margin-top: 4%;
+.textimprove__icon-button {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent url("../images/info-circle.png") center / 18px 18px no-repeat;
+    opacity: 0.7;
     cursor: pointer;
+    transition: opacity 0.15s ease, background-color 0.15s ease;
 }
 
-.btn-start:hover:not(:disabled),
-#widgetShow:hover:not(:disabled) {
-    color: white;
-    background: black;
+.textimprove__icon-button:hover {
+    opacity: 1;
+    background-color: var(--ti-color-surface);
 }
 
-.key {
-    font-size: 13px;
-    font-family: Helvetica Neue, Arial, sans-serif;
+/* Steps */
+
+.textimprove__panel {
+    counter-reset: textimprove-step;
 }
 
-.key p {
-    margin: 5%;
+.textimprove__step {
+    counter-increment: textimprove-step;
+    margin: 12px 0 0;
+    padding: 12px;
+    border: 1px solid var(--ti-color-border);
+    border-radius: var(--ti-radius);
 }
 
-.key__title {
-    font-size: 16px;
-    text-align: center;
-    padding-top: 5%;
-    border-top: 1px solid lightgray;
+.textimprove__step-text {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0 0 10px;
 }
 
-.key__list,
-.info__list {
-    margin-top: 4%;
-    padding: 0 30px;
+.textimprove__step-text::before {
+    content: counter(textimprove-step);
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--ti-color-primary);
+    color: var(--ti-color-on-primary);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
 }
 
-.key__list li,
-.info__list li {
-    list-style: auto;
-    margin-bottom: 4%;
+/* Buttons */
+
+.textimprove__button {
+    display: block;
+    width: 100%;
+    min-height: 36px;
+    padding: 8px 12px;
+    border: 1px solid var(--ti-color-primary);
+    border-radius: var(--ti-radius);
+    background: var(--ti-color-on-primary);
+    color: var(--ti-color-primary);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.hidden {
+.textimprove__button:hover:not(:disabled) {
+    background: var(--ti-color-primary);
+    color: var(--ti-color-on-primary);
+}
+
+.textimprove__button:disabled {
+    border-color: var(--ti-color-border);
+    background: var(--ti-color-disabled-surface);
+    color: var(--ti-color-disabled);
+    cursor: progress;
+}
+
+.textimprove__button--inline {
+    display: inline-block;
+    width: auto;
+    margin-top: 4px;
+    padding: 6px 16px;
+    min-height: 32px;
+}
+
+.textimprove .textimprove__button:focus-visible,
+.textimprove .textimprove__icon-button:focus-visible {
+    outline: 2px solid var(--ti-color-focus);
+    outline-offset: 2px;
+}
+
+/* Content Studio draws a focus outline on mouse clicks too; keep it for keyboard users only. */
+.textimprove .textimprove__button:focus:not(:focus-visible),
+.textimprove .textimprove__icon-button:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Result */
+
+.textimprove__output {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 16px;
+    padding: 12px 14px;
+    border: 1px solid var(--ti-color-border);
+    border-radius: var(--ti-radius);
+    background: var(--ti-color-surface);
+}
+
+.textimprove__output:has(> .textimprove__spinner.hidden):has(> .textimprove__result:empty) {
     display: none;
 }
 
-#imgSpin {
-    height: 40px;
-    width: 100%;
-    margin: 40px auto;
-    animation: rotation 2s infinite linear;
+.textimprove__output:has(.error) {
+    border-color: var(--ti-color-error-border);
+    background: var(--ti-color-error-surface);
 }
 
-.bottomImage {
-    position: absolute;
-    bottom: 0;
-    margin: 4%;
-}
-
-@keyframes rotation {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(359deg);
-    }
-}
-
-#infoShow {
-    background-image: url("../images/info-circle.png");
-    background-size: cover;
-    height: 20px;
+.textimprove__spinner {
+    flex: none;
     width: 20px;
-    border: none;
-    background-color: white;
-    cursor: pointer;
+    height: 20px;
+    animation: textimprove-spin 1.2s linear infinite;
 }
 
-#widgetShow {
-    cursor: pointer;
-    background-color: white;
-    border: 1.5px solid black;
-    border-radius: 7px;
-    margin-top: 4%;
+.textimprove__result {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: break-word;
+    white-space: pre-line;
 }
 
-.info p {
-    margin-top: 4%;
+/* Content Studio renders `.widget-item-view .error` as an absolutely positioned watermark. */
+#text-improve__result .error {
+    position: static;
+    width: auto;
+    margin: 0;
+    overflow: visible;
+    font: inherit;
+    text-align: left;
+    color: var(--ti-color-error);
 }
 
-.info__title {
-    font-size: 16px;
-    text-align: center;
-    padding-top: 5%;
+@keyframes textimprove-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .textimprove__spinner {
+        animation-duration: 4s;
+    }
+}
+
+/* Info and API key views */
+
+.textimprove__title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.textimprove__about p {
+    margin: 0 0 10px;
+}
+
+.textimprove__about .textimprove__subtitle {
+    margin: 2px 0 12px;
+    font-size: 12px;
+    color: var(--ti-color-muted);
+}
+
+.textimprove__about .textimprove__title + p:not(.textimprove__subtitle) {
+    margin-top: 10px;
+}
+
+.textimprove__list {
+    margin: 0 0 10px;
+    padding-left: 20px;
+}
+
+.textimprove__list li {
+    margin-bottom: 4px;
+    list-style: disc outside;
+}
+
+.textimprove__list--ordered li {
+    list-style-type: decimal;
+}
+
+.textimprove code {
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: var(--ti-color-surface);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+/* Footer */
+
+.textimprove__footer {
+    margin-top: 24px;
+}
+
+.textimprove__powered-by {
+    display: block;
+    width: 100%;
+    max-width: var(--ti-powered-by-max-width);
+    height: auto;
 }

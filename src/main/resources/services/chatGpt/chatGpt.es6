@@ -2,25 +2,25 @@ const libs = {
   content: require("/lib/xp/content"),
   httpClient: require("/lib/http-client"),
   portal: require("/lib/xp/portal"),
-  context: require("/lib/xp/context")
+  context: require("/lib/xp/context"),
+  common: require("/lib/xp/common")
 };
 
 const apiKey = app.config?.apiKey;
+const alternativeModel = app.config?.model;
 
 const sendQuery = (query) => {
   const data = {
-    messages: [{
-      role: "user",
-      content: query
-    }],
-    model: "gpt-3.5-turbo",
-    temperature: 0.7
+    instructions: "Answer in plain text in the same language as the question. Do not use Markdown or any other formatting syntax. Separate paragraphs with a blank line, and put each list item on its own line starting with \"• \".",
+    input: query,
+    model: alternativeModel ?? "gpt-6-luna",
+    store: false
   };
 
   let response;
   try {
     response = libs.httpClient.request({
-      url: "https://api.openai.com/v1/chat/completions",
+      url: "https://api.openai.com/v1/responses",
       method: "POST",
       headers: {
         "Cache-Control": "no-cache",
@@ -39,9 +39,31 @@ const sendQuery = (query) => {
   return response;
 };
 
+// The raw REST response has no `output_text` shortcut (that is an SDK helper), and `output` may also hold reasoning items.
+const getOutputText = (parsedResponse) => {
+  let text = "";
+  (parsedResponse.output ?? []).forEach((item) => {
+    if (item.type === "message") {
+      (item.content ?? []).forEach((part) => {
+        if (part.type === "output_text") {
+          text += part.text;
+        }
+      });
+    }
+  });
+  return text;
+};
+
+// The widget inserts the answer as HTML, so the model's text must not be able to add markup of its own.
+const escapeHtml = (text) => text
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
+
 exports.post = (req) => {
   const params = JSON.parse(req.body);
   const content = libs.content.get({ key: params.contentId });
+  const sanitisedContent = params.articleText ? libs.common.sanitize(params.articleText).replaceAll("-", " ") : "";
 
   let title = "";
   let preface = "";
@@ -61,9 +83,9 @@ exports.post = (req) => {
     }
   } else if (params.queryType === "verify") {
     if (content.language === "no") {
-      query = `Jeg skriver en artikkel for et nettsted. Tittelen på artikkelen er "${title}". Ingress for artikkelen er "${preface}". Her er hele artikkelteksten: ${params.articleText}. Har jeg besvart leserens forventninger til hva man kan lese om i denne artikkelen, basert på tittel og ingress?`;
+      query = `Jeg skriver en artikkel for et nettsted. Tittelen på artikkelen er "${title}". Ingress for artikkelen er "${preface}". Her er hele artikkelteksten: ${sanitisedContent}. Har jeg besvart leserens forventninger til hva man kan lese om i denne artikkelen, basert på tittel og ingress?`;
     } else {
-      query = `I'm writing an article for a webpage. The article title is "${title}". The preface is "${preface}". Here's the complete article: ${params.articleText}. Have I answered the reader's expectations for what the article is about, based on the title and the preface?`;
+      query = `I'm writing an article for a webpage. The article title is "${title}". The preface is "${preface}". Here's the complete article: ${sanitisedContent}. Have I answered the reader's expectations for what the article is about, based on the title and the preface?`;
     }
   }
 
@@ -79,6 +101,6 @@ exports.post = (req) => {
   const parsedResponse = JSON.parse(response.body);
   return {
     contentType: "text/html",
-    body: parsedResponse.choices?.[0]?.message?.content
+    body: escapeHtml(getOutputText(parsedResponse).trim())
   };
 };

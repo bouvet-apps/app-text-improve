@@ -1,10 +1,9 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'com.enonic.xp.app' version '3.4.0'
-    id "com.github.node-gradle.node" version "7.0.0"
-    id 'org.ajoberstar.grgit' version '4.1.1'
-    id "com.github.ben-manes.versions" version '0.47.0'
+    id 'com.enonic.xp.app' version '3.6.2'
+    id "com.github.node-gradle.node" version "7.1.0"
+    id "com.github.ben-manes.versions" version '0.54.0'
 }
 
 sourceCompatibility = "1.11"
@@ -18,6 +17,17 @@ publishing {
             version = "${version}"
 
             from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/bouvet-apps/app-text-improve")
+            credentials {
+                username = providers.gradleProperty("bouvetGithubUser").orNull
+                password = providers.gradleProperty("bouvetGithubToken").orNull
+            }
         }
     }
 }
@@ -105,9 +115,9 @@ dependencies {
     include "com.enonic.xp:lib-i18n:${xpVersion}"
     include "com.enonic.xp:lib-portal:${xpVersion}"
     include "com.enonic.xp:lib-websocket:${xpVersion}"
-    include 'com.enonic.lib:lib-cache:2.2.0'
+    include 'com.enonic.lib:lib-cache:2.2.1'
     include 'com.enonic.lib:lib-http-client:3.2.2'
-    include "com.enonic.lib:lib-thymeleaf:2.1.0"
+    include "com.enonic.lib:lib-thymeleaf:2.1.1"
 }
 
 repositories {
@@ -120,15 +130,15 @@ repositories {
 
 node {
     // Version of node to use.
-    version = '16.20.2'
+    version = '24.22.2'
     // Version of npm to use.
-    npmVersion = '8.19.4'
+    npmVersion = '11.19.1'
     // If true, it will download node using above parameters.
     // If false, it will try to use globally installed node.
     download = true
 }
 
 wrapper {
-    gradleVersion = '8.3'
+    gradleVersion = '8.11.1'
     distributionType = Wrapper.DistributionType.BIN
 }

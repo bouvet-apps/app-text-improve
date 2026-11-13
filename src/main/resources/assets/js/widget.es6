@@ -3,8 +3,16 @@ let verifyBtn;
 let infoBtn;
 let widgetBtn;
 
+const setStartButtonsDisabled = (disabled) => {
+  [expectationBtn, verifyBtn].forEach((button) => {
+    if (button) {
+      button.toggleAttribute("disabled", disabled);
+    }
+  });
+};
+
 const contactService = async(requestData) => {
-  document.getElementById("text-improve__result").innerHTML = requestData.locale === "no" ? "ChatGPT prosesserer artikkeldata..." : "ChatGPT is processing the article data...";
+  document.getElementById("text-improve__result").innerHTML = requestData.locale === "no" ? "Prosesserer artikkeldata..." : "Processing the article data...";
   document.getElementById("imgSpin").classList.remove("hidden");
   const response = await fetch(requestData.url, {
     method: "POST",
@@ -13,8 +21,8 @@ const contactService = async(requestData) => {
 
   if (response.length > 0) {
     document.getElementById("imgSpin").classList.add("hidden");
-    document.getElementById(requestData.body.queryType).removeAttribute("disabled");
-    document.getElementById("text-improve__result").innerHTML = response.replace(/\./g, ".<br><br>");
+    setStartButtonsDisabled(false);
+    document.getElementById("text-improve__result").innerHTML = response;
   }
 };
 
@@ -70,7 +78,7 @@ const initialize = () => {
   if (expectationBtn) {
     expectationBtn.addEventListener("click", async(event) => {
       event.preventDefault();
-      expectationBtn.setAttribute("disabled", true);
+      setStartButtonsDisabled(true);
       const requestData = await buildRequestData("expectation");
       contactService(requestData);
     }, false);
@@ -79,7 +87,7 @@ const initialize = () => {
   if (verifyBtn) {
     verifyBtn.addEventListener("click", async(event) => {
       event.preventDefault();
-      verifyBtn.setAttribute("disabled", true);
+      setStartButtonsDisabled(true);
       const requestData = await buildRequestData("verify");
       contactService(requestData);
     }, false);

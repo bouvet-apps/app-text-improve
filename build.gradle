@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'com.enonic.xp.app' version '3.6.1'
+    id 'com.enonic.xp.app' version '3.6.2'
     id "com.github.node-gradle.node" version "7.1.0"
     id "com.github.ben-manes.versions" version '0.54.0'
 }
@@ -17,6 +17,17 @@ publishing {
             version = "${version}"
 
             from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/bouvet-apps/app-text-improve")
+            credentials {
+                username = providers.gradleProperty("bouvetGithubUser").orNull
+                password = providers.gradleProperty("bouvetGithubToken").orNull
+            }
         }
     }
 }
@@ -119,9 +130,9 @@ repositories {
 
 node {
     // Version of node to use.
-    version = '16.20.2'
+    version = '24.22.2'
     // Version of npm to use.
-    npmVersion = '8.19.4'
+    npmVersion = '11.19.1'
     // If true, it will download node using above parameters.
     // If false, it will try to use globally installed node.
     download = true

@@ -7,21 +7,20 @@ const libs = {
 };
 
 const apiKey = app.config?.apiKey;
+const alternativeModel = app.config?.model;
 
 const sendQuery = (query) => {
   const data = {
-    messages: [{
-      role: "user",
-      content: query
-    }],
-    model: "gpt-3.5-turbo", // TODO: We should test and consider upgrading to a newer model. We could also consider allowing the user to choose the model in the widget settings.
-    temperature: 0.7
+    instructions: "Answer in plain text in the same language as the question. Do not use Markdown or any other formatting syntax. Separate paragraphs with a blank line, and put each list item on its own line starting with \"• \".",
+    input: query,
+    model: alternativeModel ?? "gpt-6-luna",
+    store: false
   };
 
   let response;
   try {
     response = libs.httpClient.request({
-      url: "https://api.openai.com/v1/chat/completions",
+      url: "https://api.openai.com/v1/responses",
       method: "POST",
       headers: {
         "Cache-Control": "no-cache",
@@ -39,6 +38,27 @@ const sendQuery = (query) => {
 
   return response;
 };
+
+// The raw REST response has no `output_text` shortcut (that is an SDK helper), and `output` may also hold reasoning items.
+const getOutputText = (parsedResponse) => {
+  let text = "";
+  (parsedResponse.output ?? []).forEach((item) => {
+    if (item.type === "message") {
+      (item.content ?? []).forEach((part) => {
+        if (part.type === "output_text") {
+          text += part.text;
+        }
+      });
+    }
+  });
+  return text;
+};
+
+// The widget inserts the answer as HTML, so the model's text must not be able to add markup of its own.
+const escapeHtml = (text) => text
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;");
 
 exports.post = (req) => {
   const params = JSON.parse(req.body);
@@ -81,6 +101,6 @@ exports.post = (req) => {
   const parsedResponse = JSON.parse(response.body);
   return {
     contentType: "text/html",
-    body: parsedResponse.choices?.[0]?.message?.content
+    body: escapeHtml(getOutputText(parsedResponse).trim())
   };
 };

@@ -1,4 +1,4 @@
-<widget>
+<widget class="textimprove">
     <link
         rel="stylesheet"
         href="../../assets/css/app.css"
@@ -6,9 +6,9 @@
         type="text/css"
         media="all"
     >
-    <div id="infoView" class="info hidden">
-        <h1 class="info__title" data-th-text="${localized.infoTitle}">Text improve</h1>
-        <p data-th-text="${localized.infoSubtitle}">- automated microtest of text content -</p>
+    <section id="infoView" class="textimprove__panel textimprove__about hidden">
+        <h2 class="textimprove__title" data-th-text="${localized.infoTitle}">Text improve</h2>
+        <p class="textimprove__subtitle" data-th-text="${localized.infoSubtitle}">- automated microtest of text content -</p>
         <p data-th-text="${localized.infoDescription1}">A text always has a message you want to convey. But does the message align with a reader's expectation of the text?
             A microtest of the text can improve and make the text more user-oriented. Users often have questions that you haven't thought of yourself.</p>
 
@@ -18,7 +18,7 @@
             The test users then read the rest of the text and note whether their questions were answered.</p>
 
         <p data-th-text="${localized.infoDescription3}">Then you look at the following:</p>
-        <ul class="info__list">
+        <ul class="textimprove__list">
             <li data-th-text="${localized.infoListItem1}">Are the questions well enough answered?</li>
             <li data-th-text="${localized.infoListItem2}">Is there unnecessary information?</li>
         </ul>
@@ -26,30 +26,30 @@
         <p data-th-text="${localized.infoDescription5}">This widget is based on the method outlined above, but automates the process by using AI (ChatGPT) instead of actual test persons.
             This way, editors can quickly and easily quality-check their texts, directly in Content Studio!</p>
 
-        <button id="widgetShow" data-th-text="${localized.infoClose}">Close</button>
-    </div>
-    <div id="widgetView" class="text-improve" data-th-data-contenturl="${contentUrl}">
-        <div class="text-improve__info">
-            <p data-th-text="${localized.info}">Microtest your text content</p>
-            <button id="infoShow"></button>
+        <button id="widgetShow" class="textimprove__button textimprove__button--inline" type="button" data-th-text="${localized.infoClose}">Close</button>
+    </section>
+    <section id="widgetView" class="textimprove__panel" data-th-data-contenturl="${contentUrl}">
+        <div class="textimprove__header">
+            <p class="textimprove__lead" data-th-text="${localized.info}">Microtest your text content</p>
+            <button id="infoShow" class="textimprove__icon-button" type="button" aria-controls="infoView"></button>
         </div>
-        <form id="text-improve__expectationForm" data-th-if="${serviceUrl}" method="get" data-th-data-action="${serviceUrl}" data-th-data-locale="${locale}">
-            <p data-th-text="${localized.expectationInfo}">Check which expectations a reader has based on the title and preface:</p>
+        <form id="text-improve__expectationForm" class="textimprove__step" data-th-if="${serviceUrl}" method="get" data-th-data-action="${serviceUrl}" data-th-data-locale="${locale}">
+            <p class="textimprove__step-text" data-th-text="${localized.expectationInfo}">Check which expectations a reader has based on the title and preface:</p>
             <input id="expectationContentId" type="hidden" data-th-if="${key}" data-th-value="${key}"/>
-            <div class="text-improve__start">
-                <button class="btn-start" id="expectation" value="expectation" data-th-text="${localized.expectation}">Check reader expectations</button>
-            </div>
+            <button id="expectation" class="textimprove__button" value="expectation" data-th-text="${localized.expectation}">Check reader expectations</button>
         </form>
-        <form id="text-improve__verifyForm" data-th-if="${serviceUrl}" method="get" data-th-data-action="${serviceUrl}" data-th-data-locale="${locale}">
-            <p data-th-text="${localized.verifyInfo}">Check if the text corresponds with the reader's expectations:</p>
+        <form id="text-improve__verifyForm" class="textimprove__step" data-th-if="${serviceUrl}" method="get" data-th-data-action="${serviceUrl}" data-th-data-locale="${locale}">
+            <p class="textimprove__step-text" data-th-text="${localized.verifyInfo}">Check if the text corresponds with the reader's expectations:</p>
             <input id="verifyContentId" type="hidden" data-th-if="${key}" data-th-value="${key}"/>
-            <div class="text-improve__start">
-                <button class="btn-start" id="verify" value="verify" data-th-text="${localized.verify}">Verify reader expectations</button>
-            </div>
+            <button id="verify" class="textimprove__button" value="verify" data-th-text="${localized.verify}">Verify reader expectations</button>
         </form>
-        <div id="text-improve__result"></div>
-        <img id="imgSpin" class="hidden" data-th-src="${openAiLogo}" alt="openAI logo">
-    </div>
-    <img class="bottomImage" data-th-src="${openAiPoweredBy}">
+        <div class="textimprove__output">
+            <img id="imgSpin" class="textimprove__spinner hidden" data-th-src="${openAiLogo}" alt="">
+            <div id="text-improve__result" class="textimprove__result" aria-live="polite"></div>
+        </div>
+    </section>
+    <footer class="textimprove__footer">
+        <img class="textimprove__powered-by" data-th-src="${openAiPoweredBy}" alt="Powered by OpenAI">
+    </footer>
     <script data-th-src="${widgetScriptUrl}" async></script>
 </widget>

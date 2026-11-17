@@ -1,0 +1,50 @@
+name: Publish to GitHub Packages
+
+on:
+  push:
+    tags:
+      - '[0-9]*.[0-9]*.[0-9]*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Publish triggered
+        env:
+            REF: ${{ github.ref }}
+        run: echo "Tag [${{ env.REF }}] pushed"
+
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Verify release
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if ! git merge-base --is-ancestor HEAD refs/remotes/origin/main; then
+            echo "::error::The tagged commit must be in main's history."
+            exit 1
+          fi
+          if [[ ! "$RELEASE_TAG" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Release tags must use MAJOR.MINOR.PATCH."
+            exit 1
+          fi
+          version="$(sed -n 's/^[[:space:]]*version[[:space:]]*=[[:space:]]*//p' gradle.properties | tr -d '\r')"
+          if [[ "$RELEASE_TAG" != "$version" ]]; then
+            echo "::error::Tag $RELEASE_TAG does not match Gradle version $version."
+            exit 1
+          fi
+
+      - name: Building and publishing app
+        uses: docker://enonic/enonic-ci:7.14                        # Update this when updating the xp version of the application
+        env:
+          ORG_GRADLE_PROJECT_bouvetGithubUser: ${{ secrets.BOUVET_GITHUB_USER }}
+          ORG_GRADLE_PROJECT_bouvetGithubToken: ${{ secrets.BOUVET_GITHUB_TOKEN }}
+        with:
+          args: bash -c
+            "chown root.root -R .
+            && /setup_sandbox.sh
+            && enonic project gradle -Pcom.enonic.xp.app.production=true :publishMavenPublicationToGitHubPackagesRepository --console=plain"
